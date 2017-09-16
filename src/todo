@@ -1,16 +1,12 @@
-Write logic for determining sequence (either all at once and then showing one at a time,
-or generating each step as it comes)
+Write logic to show sequence one by one and respond to user input.
 
 Write validation logic for user input, does it match the moves sequence?
+
 
 Add boolean for checking whether user input is allowed (game started, not currently showing last sequence)
 
 Add animation when button is pressed or shown as part of sequence
 
 Add strict mode / lives left for non-strict mode
-
-Implement reset button
-
-Add supported-language-features-and-polyfills
 
 Style better

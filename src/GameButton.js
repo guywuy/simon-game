@@ -14,6 +14,6 @@ export const GameButton = ({
   }
 
   return (
-    <div className='game-button' id={'game-button-' + id} onClick={handleClick}>{id}</div>
+    <div className='game-button' id={'game-button-' + id} onClick={handleClick}></div>
   )
 }

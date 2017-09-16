@@ -10,7 +10,8 @@ class App extends Component {
       usermoves: [],
       currentMoveIndex: 0,
       speed: 1,
-      gameStarted: false
+      gameStarted: false,
+      livesRemaining: 3
     }
     this.handleGameButtonClick = this.handleGameButtonClick.bind(this);
     this.initGame = this.initGame.bind(this);
@@ -26,12 +27,27 @@ class App extends Component {
     return seq
   }
 
+  // Start interval
+  runSequence(){
+
+  }
+
+  animateGameButton(id){
+    let but = document.getElementById(`game-button-${id}`);
+    // console.log('but', but);
+    but.classList.add('button-active');
+    setTimeout( () => {
+      but.classList.remove('button-active');
+    }, 100);
+  }
+
   initGame(){
     this.setState({
       sequence: this.generateSequence(),
       usermoves: [],
       currentMoveIndex: 0,
-      gameStarted: true
+      gameStarted: true,
+      livesRemaining: 3
     })
   }
 
@@ -40,12 +56,14 @@ class App extends Component {
       sequence: [],
       usermoves: [],
       currentMoveIndex: 0,
-      gameStarted: false
+      gameStarted: false,
+      livesRemaining: 3
     })
   }
 
   handleGameButtonClick(id){
     console.log(id);
+    this.animateGameButton(id);
     this.setState( prevState => {
       return {
         usermoves: [...prevState.usermoves, id],
@@ -69,8 +87,8 @@ class App extends Component {
           <GameButton id='3' onClick={this.handleGameButtonClick} />
         </div>
         <div className='reset-button' id='reset-button' onClick={this.resetGame} > Reset </div>
-        <div className='sequencedisplay'>{this.state.sequence}</div>
-        <div className='usermovesdisplay'>{this.state.usermoves}</div>
+        <div className='sequencedisplay'>Generated sequence: {this.state.sequence}</div>
+        <div className='usermovesdisplay'>Users moves: {this.state.usermoves}</div>
         <div className='currentMoveIndexdisplay'>Move index: {this.state.currentMoveIndex}</div>
       </div>
     );
