@@ -12,7 +12,7 @@ class App extends Component {
       speed: 1,
       gameStarted: false,
       livesRemaining: 3,
-      showingSequence: false
+      acceptingUserInput: false
     }
     this.handleGameButtonClick = this.handleGameButtonClick.bind(this);
     this.initGame = this.initGame.bind(this);
@@ -30,25 +30,41 @@ class App extends Component {
 
   // Start interval to show ids in array up to the targetIndex
   runSequence(targetIndex){
-    this.setState({showingSequence: true});
-    // Need to redo so that timers are set subsequentially, not one timer being set
-    // for everything to execute at the same time after a delay....
-    for (let i=0; i<targetIndex; i++){
-      console.log(this.state.sequence[i]);
+    this.setState({
+      acceptingUserInput: false,
+      usermoves : []
+    }, ()=>{
+      for (let i=0; i<targetIndex; i++){
+        // console.log(this.state.sequence[i]);
+        setTimeout( () => {
+          this.animateGameButton(this.state.sequence[i]);
+        }, 500*i);
+      }
       setTimeout( () => {
-        this.animateGameButton(this.state.sequence[i]);
-      }, 400);
-    }
-    this.setState({showingSequence: false});
+        this.setState({acceptingUserInput: true});
+      }, 500*targetIndex);
+    })
   }
 
 //Check guessID against ID of sequence[currentMoveIndex]
   validateUserGuess(guessID){
-    //if correct, usercorrectguess function, else incorrectGuess function
-    if (true) this.correctGuess();
+    // index of current guess to validate will be state.usermoves.length-1.
+    let index = this.state.usermoves.length-1;
+    console.log('index : ', index);
+    console.log('guessID : ', guessID);
+    console.log('this.state.sequence[index] : ', this.state.sequence[index]);
+    if (this.state.sequence[index]==guessID){
+      // if this guess is the final guess of the sequence up to this point,
+      if (index === this.state.currentMoveIndex - 1){
+        this.correctSequenceGuess();
+      }
+    } else {
+      this.incorrectGuess();
+    }
+
   }
 
-  correctGuess(){
+  correctSequenceGuess(){
     //If currentMoveIndex < 20, increase and runSequence with currentMoveIndex++
     // else Won game!
     if (this.state.currentMoveIndex<19){
@@ -58,12 +74,34 @@ class App extends Component {
       }}, ()=>{
         this.runSequence(this.state.currentMoveIndex);
       })
+    } else {
+      // USER HAS WON THE GAME!
+      alert('winner winner chicken dinner')
     }
   }
 
   incorrectGuess(){
+    //Flash red backgroundbut.classList.add('button-active');
+    let root = document.getElementById('root');
+    root.classList.add('fail');
+    setTimeout( () => {
+      root.classList.remove('fail');
+    }, 100);
     //If livesRemaining>0, livesRemaining--, and runSequence again w currentMoveIndex
     // else lost game!
+    if (this.state.livesRemaining>0){
+      this.setState( prevState => {
+        return {
+          livesRemaining : prevState.livesRemaining -= 1
+        }
+      }, () => {
+        this.runSequence(this.state.currentMoveIndex)
+      })
+    } else {
+      alert('you have lost! doofus');
+      this.resetGame();
+    }
+    console.log('incorrectGuess');
   }
 
   animateGameButton(id){
@@ -99,14 +137,16 @@ class App extends Component {
   }
 
   handleGameButtonClick(id){
-    this.animateGameButton(id);
-    this.setState( prevState => {
-      return {
-        usermoves: [...prevState.usermoves, id]
-      }
-    }, ()=>{
-      this.validateUserGuess(id)
-    })
+    if (this.state.acceptingUserInput){
+      this.animateGameButton(id);
+      this.setState( prevState => {
+        return {
+          usermoves: [...prevState.usermoves, id]
+        }
+      }, ()=>{
+        this.validateUserGuess(id)
+      })
+    }
   }
 
   render() {
@@ -127,6 +167,7 @@ class App extends Component {
         <div className='sequencedisplay'>Generated sequence: {this.state.sequence}</div>
         <div className='usermovesdisplay'>Users moves: {this.state.usermoves}</div>
         <div className='currentMoveIndexdisplay'>Move index: {this.state.currentMoveIndex}</div>
+        <div className='livesRemainingdisplay'>Lives left: {this.state.livesRemaining}</div>
       </div>
     );
   }

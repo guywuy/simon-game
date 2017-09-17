@@ -1,8 +1,6 @@
 
 Add timer/interval/timeout so that sequence is shown subsequentially.
 
-Write logic to show sequence one by one and respond to user input.
-
 Write validation logic for user input, does it match the moves sequence?
 
 Remove userMoves array? Not useful for anything as can validate each guess individually? Or necessary to check each guess against corresponding in sequence?

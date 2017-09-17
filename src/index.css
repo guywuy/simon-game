@@ -67,3 +67,9 @@ body {
   margin: auto;
   line-height: 60px;
 }
+#root{
+  transition: background 0.3s;
+}
+.fail{
+  background: red;
+}
