@@ -8,10 +8,11 @@ class App extends Component {
     this.state = {
       sequence: [],
       usermoves: [],
-      currentMoveIndex: 0,
+      currentMoveIndex: 1,
       speed: 1,
       gameStarted: false,
-      livesRemaining: 3
+      livesRemaining: 3,
+      showingSequence: false
     }
     this.handleGameButtonClick = this.handleGameButtonClick.bind(this);
     this.initGame = this.initGame.bind(this);
@@ -27,9 +28,42 @@ class App extends Component {
     return seq
   }
 
-  // Start interval
-  runSequence(){
+  // Start interval to show ids in array up to the targetIndex
+  runSequence(targetIndex){
+    this.setState({showingSequence: true});
+    // Need to redo so that timers are set subsequentially, not one timer being set
+    // for everything to execute at the same time after a delay....
+    for (let i=0; i<targetIndex; i++){
+      console.log(this.state.sequence[i]);
+      setTimeout( () => {
+        this.animateGameButton(this.state.sequence[i]);
+      }, 400);
+    }
+    this.setState({showingSequence: false});
+  }
 
+//Check guessID against ID of sequence[currentMoveIndex]
+  validateUserGuess(guessID){
+    //if correct, usercorrectguess function, else incorrectGuess function
+    if (true) this.correctGuess();
+  }
+
+  correctGuess(){
+    //If currentMoveIndex < 20, increase and runSequence with currentMoveIndex++
+    // else Won game!
+    if (this.state.currentMoveIndex<19){
+      this.setState( (prevState) => {
+        return {
+          currentMoveIndex: prevState.currentMoveIndex+=1
+      }}, ()=>{
+        this.runSequence(this.state.currentMoveIndex);
+      })
+    }
+  }
+
+  incorrectGuess(){
+    //If livesRemaining>0, livesRemaining--, and runSequence again w currentMoveIndex
+    // else lost game!
   }
 
   animateGameButton(id){
@@ -41,34 +75,37 @@ class App extends Component {
     }, 100);
   }
 
+  // Make a new sequence and start runSequence (callback after state is set)
   initGame(){
     this.setState({
       sequence: this.generateSequence(),
       usermoves: [],
-      currentMoveIndex: 0,
+      currentMoveIndex: 1,
       gameStarted: true,
       livesRemaining: 3
-    })
+    }, ()=>{
+      this.runSequence(this.state.currentMoveIndex);
+    });
   }
 
   resetGame(){
     this.setState({
       sequence: [],
       usermoves: [],
-      currentMoveIndex: 0,
+      currentMoveIndex: 1,
       gameStarted: false,
       livesRemaining: 3
     })
   }
 
   handleGameButtonClick(id){
-    console.log(id);
     this.animateGameButton(id);
     this.setState( prevState => {
       return {
-        usermoves: [...prevState.usermoves, id],
-        currentMoveIndex: prevState.currentMoveIndex++
+        usermoves: [...prevState.usermoves, id]
       }
+    }, ()=>{
+      this.validateUserGuess(id)
     })
   }
 
@@ -76,7 +113,7 @@ class App extends Component {
     return (
       <div className="App">
         <div
-          className='start-game-button' id='start-game-button'
+          className='button start-game-button' id='start-game-button'
           style= {{display: this.state.gameStarted ? 'none' : 'block'}}
           onClick= {this.initGame}
           > Start Game </div>
@@ -86,7 +123,7 @@ class App extends Component {
           <GameButton id='2' onClick={this.handleGameButtonClick} />
           <GameButton id='3' onClick={this.handleGameButtonClick} />
         </div>
-        <div className='reset-button' id='reset-button' onClick={this.resetGame} > Reset </div>
+        <div className='button reset-button' id='reset-button' onClick={this.resetGame} > Reset </div>
         <div className='sequencedisplay'>Generated sequence: {this.state.sequence}</div>
         <div className='usermovesdisplay'>Users moves: {this.state.usermoves}</div>
         <div className='currentMoveIndexdisplay'>Move index: {this.state.currentMoveIndex}</div>

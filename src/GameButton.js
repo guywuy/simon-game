@@ -5,15 +5,10 @@ export const GameButton = ({
   id
 }) => {
   const handleClick = () => {
-    animate();
     onClick(id)
   }
 
-  const animate = () => {
-
-  }
-
   return (
-    <div className='game-button' id={'game-button-' + id} onClick={handleClick}></div>
+    <div className='button game-button' id={'game-button-' + id} onClick={handleClick}></div>
   )
 }
