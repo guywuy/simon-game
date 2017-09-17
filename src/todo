@@ -1,13 +1,10 @@
 
-Add timer/interval/timeout so that sequence is shown subsequentially.
-
-Write validation logic for user input, does it match the moves sequence?
-
-Remove userMoves array? Not useful for anything as can validate each guess individually? Or necessary to check each guess against corresponding in sequence?
 
 
-Add conditional to handleClick to check that 'showingSequence' isn't in progress (and therefore not to respond to click)
+Add strict mode? Or leave just with lives left.
 
-Add strict mode / lives left for non-strict mode
+Add sounds!
 
 Style better
+
+Allow user to be able to control speed sequence is replayed at? Would be easy, but beneficial?

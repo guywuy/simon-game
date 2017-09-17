@@ -18,24 +18,24 @@ class App extends Component {
     this.initGame = this.initGame.bind(this);
     this.resetGame = this.resetGame.bind(this);
   }
-  // Return an array of 20 items, random numbers between 0-3
+  // Return an array of 20 items: random numbers between 0-3
   generateSequence(){
     let seq = [];
     for (let i=0; i<20; i++){
       seq.push(Math.floor(Math.random()*4))
     };
-    console.log('Generated sequence ', seq);
     return seq
   }
 
-  // Start interval to show ids in array up to the targetIndex
+  // Start intervals to show the sequence up to the targetIndex
+  // Reset usermoves for next sequence guess.
+  // Whilst sequence is showing, disable acceptingUserInput
   runSequence(targetIndex){
     this.setState({
       acceptingUserInput: false,
       usermoves : []
-    }, ()=>{
+    }, () => {
       for (let i=0; i<targetIndex; i++){
-        // console.log(this.state.sequence[i]);
         setTimeout( () => {
           this.animateGameButton(this.state.sequence[i]);
         }, 500*i);
@@ -46,22 +46,20 @@ class App extends Component {
     })
   }
 
-//Check guessID against ID of sequence[currentMoveIndex]
+//Check guessID against ID of corresponding item in sequence array
   validateUserGuess(guessID){
     // index of current guess to validate will be state.usermoves.length-1.
     let index = this.state.usermoves.length-1;
-    console.log('index : ', index);
-    console.log('guessID : ', guessID);
-    console.log('this.state.sequence[index] : ', this.state.sequence[index]);
+
+    //Here using fuzzy equals, as one of them is an int and other a string. Could parse int but no need for deep equality here
     if (this.state.sequence[index]==guessID){
       // if this guess is the final guess of the sequence up to this point,
       if (index === this.state.currentMoveIndex - 1){
         this.correctSequenceGuess();
-      }
+      } // Otherwise continue to allow next guess in the sequence
     } else {
       this.incorrectGuess();
     }
-
   }
 
   correctSequenceGuess(){
@@ -76,12 +74,13 @@ class App extends Component {
       })
     } else {
       // USER HAS WON THE GAME!
-      alert('winner winner chicken dinner')
+      alert('winner winner chicken dinner');
+      this.resetGame();
     }
   }
 
   incorrectGuess(){
-    //Flash red backgroundbut.classList.add('button-active');
+    //Flash red background
     let root = document.getElementById('root');
     root.classList.add('fail');
     setTimeout( () => {
@@ -101,12 +100,11 @@ class App extends Component {
       alert('you have lost! doofus');
       this.resetGame();
     }
-    console.log('incorrectGuess');
   }
 
+// Flash the button when it is activated by adding a class and removing it shortly after
   animateGameButton(id){
     let but = document.getElementById(`game-button-${id}`);
-    // console.log('but', but);
     but.classList.add('button-active');
     setTimeout( () => {
       but.classList.remove('button-active');
@@ -164,9 +162,9 @@ class App extends Component {
           <GameButton id='3' onClick={this.handleGameButtonClick} />
         </div>
         <div className='button reset-button' id='reset-button' onClick={this.resetGame} > Reset </div>
-        <div className='sequencedisplay'>Generated sequence: {this.state.sequence}</div>
-        <div className='usermovesdisplay'>Users moves: {this.state.usermoves}</div>
-        <div className='currentMoveIndexdisplay'>Move index: {this.state.currentMoveIndex}</div>
+        // <div className='sequencedisplay'>Generated sequence: {this.state.sequence}</div>
+        // <div className='usermovesdisplay'>Users moves: {this.state.usermoves}</div>
+        // <div className='currentMoveIndexdisplay'>Move index: {this.state.currentMoveIndex}</div>
         <div className='livesRemainingdisplay'>Lives left: {this.state.livesRemaining}</div>
       </div>
     );
