@@ -1,6 +1,9 @@
 *{
   box-sizing: border-box;
 }
+html {
+  background-image: url('http://cdn.backgroundhost.com/backgrounds/subtlepatterns/retina_wood.png');
+}
 body {
   margin: 0;
   padding: 0;
@@ -8,14 +11,13 @@ body {
 }
 .button {
   cursor: pointer;
-  border-radius: 50%;
 }
 .game-button-container{
   display: grid;
   grid-template-rows: 220px 220px;
   grid-template-columns: 220px 220px;
-  grid-gap: 20px;
-  width: 460px;
+  grid-gap: 10px;
+  width: 450px;
   margin: auto;
 }
 .game-button{
@@ -23,18 +25,23 @@ body {
   height: 100%;
   box-shadow: inset -8px -4px 12px rgba(20, 2, 2, 0.2), inset 5px 4px 12px rgba(250, 250, 250, 0.2);
   transition: box-shadow 0.1s;
+  border: 6px black;
 }
 #game-button-0{
   background-color: #af0000;
+  border-top-left-radius: 100%;
 }
 #game-button-1{
   background-color: #008400;
+  border-top-right-radius: 100%;
 }
 #game-button-2{
   background-color: #2222b7;
+  border-bottom-left-radius: 100%;
 }
 #game-button-3{
   background-color: #e8e85c;
+  border-bottom-right-radius: 100%;
 }
 .button-active#game-button-0{
   background-color: red;
@@ -54,6 +61,7 @@ body {
 #start-game-button{
   position: absolute;
   display: block;
+  border-radius: 50%;
   width: 300px;
   height: 300px;
   left: calc(50vw - 150px);
@@ -66,21 +74,33 @@ body {
   font-size: 4em;
   background: rgb(200, 200, 200);
   z-index: 10;
-  box-shadow: 0 0 60px white;
-}
-#reset-button{
-  width: 60px;
-  height: 60px;
-  border-radius: 24%;
-  background: crimson;
-  color: white;
-  text-align: center;
-  margin: auto;
-  line-height: 60px;
+  box-shadow: inset -8px -4px 12px rgba(20, 2, 2, 0.2), inset 5px 4px 12px rgba(250, 250, 250, 0.2);
+
 }
 #root{
   transition: background 0.3s;
 }
 .fail{
   background: red;
+}
+.infoAndResetContainer{
+  margin: 2em auto;
+  max-width: 1000px;
+  display: flex;
+  justify-content: space-between;
+}
+.infoAndResetContainer>div{
+  width: auto;
+  color: white;
+  text-align: center;
+  text-shadow: 2px 2px 4px black;
+  text-transform: uppercase;
+  font-size: 2em;
+  border-radius: 24%;
+  padding: 0.8em 2em;
+  line-height: 2em;
+}
+#reset-button{
+  text-shadow: 2px 2px 4px grey;
+  background: crimson;
 }

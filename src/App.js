@@ -38,6 +38,7 @@ class App extends Component {
       for (let i=0; i<targetIndex; i++){
         setTimeout( () => {
           this.animateGameButton(this.state.sequence[i]);
+          this.playSound(this.state.sequence[i]);
         }, 500*(i+1));
       }
       setTimeout( () => {
@@ -137,6 +138,7 @@ class App extends Component {
   handleGameButtonClick(id){
     if (this.state.acceptingUserInput){
       this.animateGameButton(id);
+      this.playSound(id);
       this.setState( prevState => {
         return {
           usermoves: [...prevState.usermoves, id]
@@ -145,6 +147,11 @@ class App extends Component {
         this.validateUserGuess(id)
       })
     }
+  }
+
+  playSound(id){
+    let audio = document.getElementById(`audio${id}`);
+    audio.play();
   }
 
   render() {
@@ -161,9 +168,11 @@ class App extends Component {
           <GameButton id='2' onClick={this.handleGameButtonClick} />
           <GameButton id='3' onClick={this.handleGameButtonClick} />
         </div>
-        <div className='button reset-button' id='reset-button' onClick={this.resetGame} > Reset </div>
-        <div className='livesRemainingDisplay'>Lives left: {this.state.livesRemaining}</div>
-        <div className='currentStepsDisplay'>Steps: {this.state.currentMoveIndex}</div>
+        <div className='infoAndResetContainer'>
+          <div className='button reset-button' id='reset-button' onClick={this.resetGame} > Reset </div>
+          <div className='livesRemainingDisplay'>Lives left: {this.state.livesRemaining}</div>
+          <div className='currentStepsDisplay'>Steps: {this.state.currentMoveIndex}</div>
+        </div>
       </div>
     );
   }
