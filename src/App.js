@@ -38,11 +38,11 @@ class App extends Component {
       for (let i=0; i<targetIndex; i++){
         setTimeout( () => {
           this.animateGameButton(this.state.sequence[i]);
-        }, 500*i);
+        }, 500*(i+1));
       }
       setTimeout( () => {
         this.setState({acceptingUserInput: true});
-      }, 500*targetIndex);
+      }, 500*(targetIndex+1));
     })
   }
 
@@ -162,10 +162,8 @@ class App extends Component {
           <GameButton id='3' onClick={this.handleGameButtonClick} />
         </div>
         <div className='button reset-button' id='reset-button' onClick={this.resetGame} > Reset </div>
-        // <div className='sequencedisplay'>Generated sequence: {this.state.sequence}</div>
-        // <div className='usermovesdisplay'>Users moves: {this.state.usermoves}</div>
-        // <div className='currentMoveIndexdisplay'>Move index: {this.state.currentMoveIndex}</div>
-        <div className='livesRemainingdisplay'>Lives left: {this.state.livesRemaining}</div>
+        <div className='livesRemainingDisplay'>Lives left: {this.state.livesRemaining}</div>
+        <div className='currentStepsDisplay'>Steps: {this.state.currentMoveIndex}</div>
       </div>
     );
   }

@@ -25,20 +25,31 @@ body {
   transition: box-shadow 0.1s;
 }
 #game-button-0{
-  background-color: red;
+  background-color: #af0000;
 }
 #game-button-1{
-  background-color: green;
+  background-color: #008400;
 }
 #game-button-2{
-  background-color: blue;
+  background-color: #2222b7;
 }
 #game-button-3{
+  background-color: #e8e85c;
+}
+.button-active#game-button-0{
+  background-color: red;
+}
+.button-active#game-button-1{
+  background-color: #00ea00;
+}
+.button-active#game-button-2{
+  background-color: blue;
+}
+.button-active#game-button-3{
   background-color: yellow;
 }
 .button-active{
-  border: 2px solid red;
-  box-shadow: inset 0 0 200px white;
+  box-shadow: 2px 2px 18px black;
 }
 #start-game-button{
   position: absolute;
