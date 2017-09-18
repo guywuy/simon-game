@@ -1,10 +1,7 @@
+REFACTOR reducers.... so that one action, e.g. 'RESET_GAME' returns new state obj, with necessary changes, rather than dispatching an action for each property of state.
 
+Use React-Redux? With Provider to wrap root element and pass down store via props, and then connect() function.
+mapStateToProps,
+mapDispatchToProps
 
-
-Add strict mode? Or leave just with lives left.
-
-Add sounds!
-
-Style better
-
-Allow user to be able to control speed sequence is replayed at? Would be easy, but beneficial?
+Use action creators..?
