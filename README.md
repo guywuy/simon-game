@@ -1,2 +1,3 @@
-Creating a 'simon-game' using only react. Later will implement using
-redux to see the difference.
+A 'simon says' game implemented with React and Redux.
+A sequence of moves is given to the user to replicate, with the
+number of steps increasing each turn up to a maximum of 20.
