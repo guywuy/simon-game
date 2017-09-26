@@ -4,7 +4,9 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import { topReducer } from './reducers/reducers';
-import { App } from './components/App'
+import { App } from './components/App';
+import { generateSequence } from './helperFunctions';
+
 
 // COMPONENTS
 //
@@ -17,18 +19,18 @@ import { App } from './components/App'
 //       presentational reset button
 //       presentational gamestate displays
 
-// STORE shape
+let initialState= {
+  gameState: {
+    sequence: generateSequence(),
+    currentMoveIndex: 1,
+    gameStarted: false,
+    livesRemaining: 3
+  },
+  acceptingUserInput: false
+}
 
-// gameState: {
-//   sequence: [],
-//   currentMoveIndex: 0,
-//   gameStarted,
-//   livesRemaining
-// }
-// acceptingUserInput: false
-
-let store = createStore(topReducer);
+let store = createStore(topReducer, initialState);
 
 render(<Provider store={store} >
-        <App store={store} />
+        <App />
         </Provider>, document.getElementById('root'));

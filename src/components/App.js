@@ -1,15 +1,26 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { StartButton } from './StartButton';
 import { GameButtonContainer } from './GameButtonContainer';
 import { FooterItemsContainer } from './FooterItemsContainer';
 import { startSequence } from '../helperFunctions';
+import * as actionCreators from '../actions/actionCreators';
 
-const AppDisplay = ({gameInProgress, startGame}) => {
+const AppDisplay = (props) => {
+
+  const onStartGame = () => {
+    props.startGame()
+    props.disableUserInput()
+    startSequence(props.gameState);
+    setTimeout(()=>{
+    props.enableUserInput()
+    }, 500)
+  }
 
   return (
     <div className="App">
-      {!gameInProgress && <StartButton onClick={startGame} />}
+      {!props.gameState.gameStarted && <StartButton onClick={onStartGame} />}
       <GameButtonContainer />
       <FooterItemsContainer />
     </div>
@@ -18,26 +29,11 @@ const AppDisplay = ({gameInProgress, startGame}) => {
 
 const mapStateToProps = (state) => {
   return {
-    gameInProgress: state.gameState.gameStarted
+    gameState: state.gameState
   }
 }
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    startGame: () => {
-      dispatch({
-        type: 'START_GAME'
-      })
-      dispatch({
-        type: 'DISABLE_USER_INPUT'
-      })
-      startSequence(ownProps.store);
-      setTimeout(()=>{
-        dispatch({
-          type: 'ENABLE_USER_INPUT'
-        })
-      }, 500)
-    }
-  }
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(actionCreators, dispatch);
 }
 export const App = connect(
   mapStateToProps,

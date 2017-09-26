@@ -12,7 +12,7 @@ export const checkGuess = (guessID, correctID) => {
   return parseInt(guessID, 10) === parseInt(correctID, 10)
 }
 
-export const playSound = id => {
+const playSound = id => {
     let audio = document.getElementById(`audio${id}`);
     audio.play();
   }
@@ -26,12 +26,14 @@ export const animateGameButton = id => {
     }, 100);
   }
 
-  export const startSequence = store => {
-    let sequenceLength = store.currentMoveIndex;
+  export const startSequence = gameState => {
+    console.log('starting sequence')
+    console.log(gameState)
+    let sequenceLength = gameState.currentMoveIndex;
     for (let i=0; i<sequenceLength; i++){
       setTimeout( () => {
-        animateGameButton(store.sequence[i]);
-        playSound(store.sequence[i]);
+        animateGameButton(gameState.sequence[i]);
+        playSound(gameState.sequence[i]);
       }, 500*(i+1));
     }
   }
